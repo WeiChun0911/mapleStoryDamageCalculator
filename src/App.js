@@ -16,12 +16,12 @@ function reducer(state, action) {
       return { ...state, "魔傷": state["魔傷"] - 0.1 };
     case 'set魔傷':
       return { ...state, "魔傷": action.value }
-    case '+B傷':
-      return { ...state, "B傷": state["B傷"] + 0.1 };
-    case '-B傷':
-      return { ...state, "B傷": state["B傷"] - 0.1 };
-    case 'setB傷':
-      return { ...state, "B傷": action.value }
+    case '+B攻':
+      return { ...state, "B攻": state["B攻"] + 0.1 };
+    case '-B攻':
+      return { ...state, "B攻": state["B攻"] - 0.1 };
+    case 'setB攻':
+      return { ...state, "B攻": action.value }
     case '+爆傷':
       return { ...state, "爆傷": state["爆傷"] + 0.1 };
     case '-爆傷':
@@ -36,10 +36,10 @@ function reducer(state, action) {
       return { ...state, "終傷": action.value }
     case 'set技能倍率':
       return { ...state, "技能倍率": action.value }
-    case 'setB傷30藥':
-      return { ...state, "B傷": state["B傷"] + 0.3 }
-    case '取消B傷30藥':
-      return { ...state, "B傷": state["B傷"] - 0.3 }
+    case 'setB攻30藥':
+      return { ...state, "B攻": state["B攻"] + 0.3 }
+    case '取消B攻30藥':
+      return { ...state, "B攻": state["B攻"] - 0.3 }
     case 'set爆傷30藥':
       return { ...state, "爆傷": state["爆傷"] + 0.3 }
     case '取消爆傷30藥':
@@ -52,10 +52,10 @@ function reducer(state, action) {
       return { ...state, "魔傷": state["魔傷"] + 0.3 }
     case '取消傷害30藥':
       return { ...state, "魔傷": state["魔傷"] - 0.3 }
-    case 'setB傷50藥':
-      return { ...state, "B傷": state["B傷"] + 0.5 }
-    case '取消B傷50藥':
-      return { ...state, "B傷": state["B傷"] - 0.5 }
+    case 'setB攻50藥':
+      return { ...state, "B攻": state["B攻"] + 0.5 }
+    case '取消B攻50藥':
+      return { ...state, "B攻": state["B攻"] - 0.5 }
     case 'set攻擊50藥':
       return { ...state, "魔攻": state["魔攻"] + 0.5 }
     case '取消攻擊50藥':
@@ -65,36 +65,36 @@ function reducer(state, action) {
         ...state,
         "魔攻": state["魔攻"] + 0.2,
         "魔傷": state["魔傷"] + 0.2,
-        "B傷": state["B傷"] + 0.2
+        "B攻": state["B攻"] + 0.2
       }
     case '取消湯寶3藥':
       return {
         ...state,
         "魔攻": state["魔攻"] - 0.2,
         "魔傷": state["魔傷"] - 0.2,
-        "B傷": state["B傷"] - 0.2
+        "B攻": state["B攻"] - 0.2
       }
     case 'set進階祝福':
       return {
         ...state,
         "魔攻": state["魔攻"] + 0.35,
-        "B傷": state["B傷"] + 0.15
+        "B攻": state["B攻"] + 0.15
       }
     case '取消進階祝福':
       return {
         ...state,
         "魔攻": state["魔攻"] - 0.35,
-        "B傷": state["B傷"] - 0.15
+        "B攻": state["B攻"] - 0.15
       }
     case 'set最終極速':
       return {
         ...state,
-        "B傷": state["B傷"] + 0.096
+        "B攻": state["B攻"] + 0.096
       }
     case '取消最終極速':
       return {
         ...state,
-        "B傷": state["B傷"] - 0.096
+        "B攻": state["B攻"] - 0.096
       }
     case 'set憤怒':
       return {
@@ -165,10 +165,10 @@ function reducer(state, action) {
 
 function 藥reducer(state, action) {
   switch (action.type) {
-    case 'setB傷30藥':
-      return { ...state, "B傷30藥": true }
-    case '取消B傷30藥':
-      return { ...state, "B傷30藥": false }
+    case 'setB攻30藥':
+      return { ...state, "B攻30藥": true }
+    case '取消B攻30藥':
+      return { ...state, "B攻30藥": false }
     case 'set爆傷30藥':
       return { ...state, "爆傷30藥": true }
     case '取消爆傷30藥':
@@ -181,10 +181,10 @@ function 藥reducer(state, action) {
       return { ...state, "傷害30藥": true }
     case '取消傷害30藥':
       return { ...state, "傷害30藥": false }
-    case 'setB傷50藥':
-      return { ...state, "B傷50藥": true }
-    case '取消B傷50藥':
-      return { ...state, "B傷50藥": false }
+    case 'setB攻50藥':
+      return { ...state, "B攻50藥": true }
+    case '取消B攻50藥':
+      return { ...state, "B攻50藥": false }
     case 'set攻擊50藥':
       return { ...state, "攻擊50藥": true }
     case '取消攻擊50藥':
@@ -238,7 +238,7 @@ function 狀態reducer(state, action) {
 }
 
 
-let 藥列表 = ['B傷30藥', '爆傷30藥', '傷害30藥', '攻擊30藥', '攻擊50藥', '湯寶3藥']
+let 藥列表 = ['B攻30藥', '爆傷30藥', '傷害30藥', '攻擊30藥', '攻擊50藥', 'B攻50藥', '湯寶3藥']
 let 狀態列表 = ['進階祝福', '最終極速', '憤怒', '戰鬥命令', '精神強化(冰雷、火毒)', '團隊精神(夜光)', '潛水回來吧', '灼熱地帶']
 
 function App() {
@@ -253,33 +253,34 @@ function App() {
     '灼熱地帶': false
   })
   const [藥, dispatch藥] = useReducer(藥reducer, {
-    'B傷30藥': false,
+    'B攻30藥': false,
     '爆傷30藥': false,
     '傷害30藥': false,
     '攻擊30藥': false,
     '攻擊50藥': false,
+    'B攻50藥': false,
     '湯寶3藥': false
   })
   const [s, dispatch] = useReducer(reducer, {
     "表攻": 30000,
     "魔攻": 1.1,
     "魔傷": 1,
-    "B傷": 1,
+    "B攻": 1,
     "爆傷": 3.4,
     "終傷": 0.5,
     "技能倍率": 1.5
   });
 
-  let finalDamage = s["表攻"] * s["技能倍率"] * (1 + s["終傷"]) * (1 + s["魔傷"]) * (1 + s["魔攻"] + s["技能倍率"] * s["B傷"]) * (1.2 + s["爆傷"])
+  let finalDamage = s["表攻"] * s["技能倍率"] * (1 + s["終傷"]) * (1 + s["魔傷"]) * (1 + s["魔攻"] + s["技能倍率"] * s["B攻"]) * (1.2 + s["爆傷"])
   let w = {
     "魔攻":
-      ((1 + s["魔攻"] + 0.1 + s["技能倍率"] * s["B傷"]) - (1 + s["魔攻"] + s["技能倍率"] * s["B傷"]))
-      / (1 + s["魔攻"] + s["技能倍率"] * s["B傷"]) * finalDamage,
+      ((1 + s["魔攻"] + 0.1 + s["技能倍率"] * s["B攻"]) - (1 + s["魔攻"] + s["技能倍率"] * s["B攻"]))
+      / (1 + s["魔攻"] + s["技能倍率"] * s["B攻"]) * finalDamage,
     "魔傷":
       ((1 + s["魔傷"] + 0.1) - (1 + s["魔傷"])) / ((1 + s["魔傷"])) * finalDamage,
-    "B傷":
-      ((1 + s["魔攻"] + s["技能倍率"] * (s["B傷"] + 0.1)) - (1 + s["魔攻"] + s["技能倍率"] * s["B傷"]))
-      / ((1 + s["魔攻"] + s["技能倍率"] * s["B傷"])) * finalDamage,
+    "B攻":
+      ((1 + s["魔攻"] + s["技能倍率"] * (s["B攻"] + 0.1)) - (1 + s["魔攻"] + s["技能倍率"] * s["B攻"]))
+      / ((1 + s["魔攻"] + s["技能倍率"] * s["B攻"])) * finalDamage,
     "爆傷": ((1.2 + s["爆傷"] + 0.1) - (1.2 + s["爆傷"])) / ((1.2 + s["爆傷"])) * finalDamage,
     "終傷": ((1 + s["終傷"] + 0.1) - (1 + s["終傷"])) / ((1 + s["終傷"])) * finalDamage,
   }
