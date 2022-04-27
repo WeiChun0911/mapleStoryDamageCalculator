@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/mapleStoryMDamageCalculator/static/css/main.073c9b0a.css",
-    "main.js": "/mapleStoryMDamageCalculator/static/js/main.eaeb9c38.js",
+    "main.js": "/mapleStoryMDamageCalculator/static/js/main.236ee075.js",
     "static/js/787.37101cef.chunk.js": "/mapleStoryMDamageCalculator/static/js/787.37101cef.chunk.js",
     "index.html": "/mapleStoryMDamageCalculator/index.html",
     "main.073c9b0a.css.map": "/mapleStoryMDamageCalculator/static/css/main.073c9b0a.css.map",
-    "main.eaeb9c38.js.map": "/mapleStoryMDamageCalculator/static/js/main.eaeb9c38.js.map",
+    "main.236ee075.js.map": "/mapleStoryMDamageCalculator/static/js/main.236ee075.js.map",
     "787.37101cef.chunk.js.map": "/mapleStoryMDamageCalculator/static/js/787.37101cef.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.073c9b0a.css",
-    "static/js/main.eaeb9c38.js"
+    "static/js/main.236ee075.js"
   ]
 }
