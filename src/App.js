@@ -350,9 +350,15 @@ function App() {
 
   let playerDamage = s["表攻"] * s["技能倍率"] * (1 + s["終傷"]) * (1 + s["物/魔傷"]) * (1 + s["物/魔攻"] + s["技能倍率"] * s["B攻"] * 1.1)
   let final爆;
+  let w爆;
   if (s["爆率"] > 1) {
     if (1 - s王["抗爆"] < 0) {
       final爆 = 0
+      if (1 - s王["抗爆"] + 1 > 0) {
+        w爆 = ((s["爆率"] + (1 - s王["抗爆"] + 1)) - s["爆率"]) / s["爆率"]
+      } else {
+
+      }
     } else {
       final爆 = (1 - s王["抗爆"]) * (1.2 + s["爆傷"])
     }
@@ -363,6 +369,8 @@ function App() {
       final爆 = (s["爆率"] - s王["抗爆"]) * (1.2 + s["爆傷"])
     }
   }
+
+
 
   let finalDamage = playerDamage * (1 - s王["減傷"]) * (1 + final爆)
   let w = {
