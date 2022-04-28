@@ -349,45 +349,55 @@ function App() {
   });
 
   let playerDamage = s["表攻"] * s["技能倍率"] * (1 + s["終傷"]) * (1 + s["物/魔傷"]) * (1 + s["物/魔攻"] + s["技能倍率"] * s["B攻"] * 1.1)
-  let final爆;
-  let w爆;
+  let final爆率;
+  let wfinal爆率;
   if (s["爆率"] > 1) {
     if (1 - s王["抗爆"] < 0) {
-      final爆 = 0
-      if (1 - s王["抗爆"] + 1 > 0) {
-        w爆 = ((s["爆率"] + (1 - s王["抗爆"] + 1)) - s["爆率"]) / s["爆率"]
-      } else {
-
-      }
+      final爆率 = 0
     } else {
-      final爆 = (1 - s王["抗爆"]) * (1.2 + s["爆傷"])
+      final爆率 = (1 - s王["抗爆"])
     }
   } else {
     if (s["爆率"] - s王["抗爆"] < 0) {
-      final爆 = 0
+      final爆率 = 0
     } else {
-      final爆 = (s["爆率"] - s王["抗爆"]) * (1.2 + s["爆傷"])
+      final爆率 = (s["爆率"] - s王["抗爆"])
+    }
+  }
+
+  if (s["爆率"] + 0.1 > 1) {
+    if (1 - s王["抗爆"] < 0) {
+      wfinal爆率 = 0
+    } else {
+      wfinal爆率 = (1 - s王["抗爆"])
+    }
+  } else {
+    if (s["爆率"] + 0.1 - s王["抗爆"] < 0) {
+      wfinal爆率 = 0
+    } else {
+      wfinal爆率 = (s["爆率"] + 0.1 - s王["抗爆"])
     }
   }
 
 
-
-  let finalDamage = playerDamage * (1 - s王["減傷"]) * (1 + final爆)
+  let final普通Damage = playerDamage * (1 - s王["減傷"])
+  let final爆擊Damage = final普通Damage * (1.2 + s['爆傷'])
+  let final期望Damage = final爆擊Damage * final爆率 + final普通Damage * (1 - final爆率)
   let w = {
     "物/魔攻":
       ((1 + s["物/魔攻"] + 0.1 + s["技能倍率"] * s["B攻"] * 1.1) - (1 + s["物/魔攻"] + s["技能倍率"] * s["B攻"] * 1.1))
-      / (1 + s["物/魔攻"] + s["技能倍率"] * s["B攻"]) * finalDamage,
+      / (1 + s["物/魔攻"] + s["技能倍率"] * s["B攻"]) * final期望Damage,
     "物/魔傷":
-      ((1 + s["物/魔傷"] + 0.1) - (1 + s["物/魔傷"])) / ((1 + s["物/魔傷"])) * finalDamage,
+      ((1 + s["物/魔傷"] + 0.1) - (1 + s["物/魔傷"])) / ((1 + s["物/魔傷"])) * final期望Damage,
     "B攻":
       ((1 + s["物/魔攻"] + s["技能倍率"] * (s["B攻"] + 0.1) * 1.1) - (1 + s["物/魔攻"] + s["技能倍率"] * s["B攻"] * 1.1))
-      / ((1 + s["物/魔攻"] + s["技能倍率"] * s["B攻"])) * finalDamage,
-    "爆傷": ((1.2 + s["爆傷"] + 0.1) - (1.2 + s["爆傷"])) / ((1.2 + s["爆傷"])) * finalDamage,
-    "終傷": ((1 + s["終傷"] + 0.1) - (1 + s["終傷"])) / ((1 + s["終傷"])) * finalDamage,
-    "爆率": (s["爆率"] - s王["抗爆"]) >= 1 ? 0 : ((s["爆率"] + 0.1) - s["爆率"]) / s["爆率"] * finalDamage
+      / ((1 + s["物/魔攻"] + s["技能倍率"] * s["B攻"])) * final期望Damage,
+    "爆傷": ((1.2 + s["爆傷"] + 0.1) - (1.2 + s["爆傷"])) / ((1.2 + s["爆傷"])) * final期望Damage,
+    "終傷": ((1 + s["終傷"] + 0.1) - (1 + s["終傷"])) / ((1 + s["終傷"])) * final期望Damage,
+    "爆率": (wfinal爆率 - final爆率) * final期望Damage
   }
-  let 卡頂 = finalDamage > 10000000
-  let damageStyle = 卡頂 ? { color: "red" } : {}
+  let 卡頂 = final爆擊Damage > 10000000
+  let damageStyle = 卡頂 ? { color: "red", margin: '10px 0' } : { margin: '10px 0' }
   return <div >
     <div style={{ padding: '5px', borderBottom: '1px solid black' }}>
       <h3 style={{ display: 'inline-block', margin: '10px' }}>藥</h3>
@@ -448,7 +458,7 @@ function App() {
               }} />
               <br />
               {key !== "表攻" && key !== "技能倍率" ?
-                <p style={{ fontSize: "0.5em", marginTop: '0' }}>+10%可增加 {key !== "表攻" && key !== "技能倍率" ? w[key].toFixed() : ""} 傷害</p>
+                <p style={{ fontSize: "0.5em", marginTop: '0' }}>+10% 可 +{key !== "表攻" && key !== "技能倍率" ? w[key].toFixed() : ""} 期望傷害</p>
                 : <></>}
 
             </div>
@@ -483,8 +493,9 @@ function App() {
         }
       </div>
     </div>
-    <h3 style={damageStyle}>打出的技能傷害: {finalDamage.toFixed()}</h3>
-    <span style={{ position: 'relative', top: -20 }}>(已套用抗爆與減傷)</span>
+    <h3 style={damageStyle}>打出的爆擊傷害: {final爆擊Damage.toFixed()}</h3>
+    <h4 style={damageStyle}>打出的普通傷害: {final普通Damage.toFixed()}</h4>
+    <span style={{ display: 'inline-block' }}>(已套用抗爆與減傷)</span>
   </div >
 
 }
