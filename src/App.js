@@ -4,18 +4,18 @@ import Input from './SemiControlledInput'
 
 function reducer(state, action) {
   switch (action.type) {
-    case '+魔攻':
-      return { ...state, "魔攻": state["魔攻"] + 0.1 };
-    case '-魔攻':
-      return { ...state, "魔攻": state["魔攻"] - 0.1 };
-    case 'set魔攻':
-      return { ...state, "魔攻": action.value }
-    case '+魔傷':
-      return { ...state, "魔傷": state["魔傷"] + 0.1 };
-    case '-魔傷':
-      return { ...state, "魔傷": state["魔傷"] - 0.1 };
-    case 'set魔傷':
-      return { ...state, "魔傷": action.value }
+    case '+物/魔攻':
+      return { ...state, "物/魔攻": state["物/魔攻"] + 0.1 };
+    case '-物/魔攻':
+      return { ...state, "物/魔攻": state["物/魔攻"] - 0.1 };
+    case 'set物/魔攻':
+      return { ...state, "物/魔攻": action.value }
+    case '+物/魔傷':
+      return { ...state, "物/魔傷": state["物/魔傷"] + 0.1 };
+    case '-物/魔傷':
+      return { ...state, "物/魔傷": state["物/魔傷"] - 0.1 };
+    case 'set物/魔傷':
+      return { ...state, "物/魔傷": action.value }
     case '+B攻':
       return { ...state, "B攻": state["B攻"] + 0.1 };
     case '-B攻':
@@ -34,6 +34,14 @@ function reducer(state, action) {
       return { ...state, "終傷": state["終傷"] - 0.1 };
     case 'set終傷':
       return { ...state, "終傷": action.value }
+    case '+爆率':
+      return { ...state, "爆率": state["爆率"] + 0.1 };
+    case '-爆率':
+      return { ...state, "爆率": state["爆率"] - 0.1 };
+    case 'set爆率':
+      return { ...state, "爆率": action.value }
+    case 'set表攻':
+      return { ...state, "表攻": action.value }
     case 'set技能倍率':
       return { ...state, "技能倍率": action.value }
     case 'setB攻30藥':
@@ -45,45 +53,53 @@ function reducer(state, action) {
     case '取消爆傷30藥':
       return { ...state, "爆傷": state["爆傷"] - 0.3 }
     case 'set攻擊30藥':
-      return { ...state, "魔攻": state["魔攻"] + 0.3 }
+      return { ...state, "物/魔攻": state["物/魔攻"] + 0.3 }
     case '取消攻擊30藥':
-      return { ...state, "魔攻": state["魔攻"] - 0.3 }
+      return { ...state, "物/魔攻": state["物/魔攻"] - 0.3 }
     case 'set傷害30藥':
-      return { ...state, "魔傷": state["魔傷"] + 0.3 }
+      return { ...state, "物/魔傷": state["物/魔傷"] + 0.3 }
     case '取消傷害30藥':
-      return { ...state, "魔傷": state["魔傷"] - 0.3 }
+      return { ...state, "物/魔傷": state["物/魔傷"] - 0.3 }
     case 'setB攻50藥':
       return { ...state, "B攻": state["B攻"] + 0.5 }
     case '取消B攻50藥':
       return { ...state, "B攻": state["B攻"] - 0.5 }
     case 'set攻擊50藥':
-      return { ...state, "魔攻": state["魔攻"] + 0.5 }
+      return { ...state, "物/魔攻": state["物/魔攻"] + 0.5 }
     case '取消攻擊50藥':
-      return { ...state, "魔攻": state["魔攻"] - 0.5 }
+      return { ...state, "物/魔攻": state["物/魔攻"] - 0.5 }
     case 'set湯寶3藥':
       return {
         ...state,
-        "魔攻": state["魔攻"] + 0.2,
-        "魔傷": state["魔傷"] + 0.2,
+        "物/魔攻": state["物/魔攻"] + 0.2,
+        "物/魔傷": state["物/魔傷"] + 0.2,
         "B攻": state["B攻"] + 0.2
       }
     case '取消湯寶3藥':
       return {
         ...state,
-        "魔攻": state["魔攻"] - 0.2,
-        "魔傷": state["魔傷"] - 0.2,
+        "物/魔攻": state["物/魔攻"] - 0.2,
+        "物/魔傷": state["物/魔傷"] - 0.2,
         "B攻": state["B攻"] - 0.2
       }
+    case 'set爆率30藥':
+      return { ...state, "爆率": state["爆率"] + 0.3 }
+    case '取消爆率30藥':
+      return { ...state, "爆率": state["爆率"] - 0.3 }
+    case 'set魔王B攻50藥':
+      return { ...state, "B攻": state["B攻"] + 0.5 }
+    case '取消魔王B攻50藥':
+      return { ...state, "B攻": state["B攻"] - 0.5 }
     case 'set進階祝福':
       return {
         ...state,
-        "魔攻": state["魔攻"] + 0.35,
+        "物/魔攻": state["物/魔攻"] + 0.35,
         "B攻": state["B攻"] + 0.15
       }
     case '取消進階祝福':
       return {
         ...state,
-        "魔攻": state["魔攻"] - 0.35,
+        "物/魔攻": state["物/魔攻"] - 0.35,
         "B攻": state["B攻"] - 0.15
       }
     case 'set最終極速':
@@ -99,64 +115,84 @@ function reducer(state, action) {
     case 'set憤怒':
       return {
         ...state,
-        "魔攻": state["魔攻"] + 0.21,
+        "物/魔攻": state["物/魔攻"] + 0.21,
       }
     case '取消憤怒':
       return {
         ...state,
-        "魔攻": state["魔攻"] - 0.21,
+        "物/魔攻": state["物/魔攻"] - 0.21,
       }
     case 'set戰鬥命令':
       return {
         ...state,
-        "魔傷": state["魔傷"] + 0.15,
+        "物/魔傷": state["物/魔傷"] + 0.15,
       }
     case '取消戰鬥命令':
       return {
         ...state,
-        "魔傷": state["魔傷"] - 0.15,
+        "物/魔傷": state["物/魔傷"] - 0.15,
       }
     case 'set精神強化(冰雷、火毒)':
       return {
         ...state,
-        "魔傷": state["魔傷"] + 0.1,
+        "物/魔傷": state["物/魔傷"] + 0.1,
       }
     case '取消精神強化(冰雷、火毒)':
       return {
         ...state,
-        "魔傷": state["魔傷"] - 0.1,
+        "物/魔傷": state["物/魔傷"] - 0.1,
       }
     case 'set團隊精神(夜光)':
       return {
         ...state,
-        "魔攻": state["魔攻"] + 0.216,
+        "物/魔攻": state["物/魔攻"] + 0.216,
       }
     case '取消團隊精神(夜光)':
       return {
         ...state,
-        "魔攻": state["魔攻"] - 0.216,
+        "物/魔攻": state["物/魔攻"] - 0.216,
       }
     case 'set潛水回來吧':
       return {
         ...state,
-        "魔傷": state["魔傷"] + 0.15,
+        "物/魔傷": state["物/魔傷"] + 0.15,
       }
     case '取消潛水回來吧':
       return {
         ...state,
-        "魔傷": state["魔傷"] - 0.15,
+        "物/魔傷": state["物/魔傷"] - 0.15,
       }
     case 'set灼熱地帶':
       return {
         ...state,
-        "魔攻": state["魔攻"] + 0.2,
-        "魔傷": state["魔傷"] + 0.05,
+        "物/魔攻": state["物/魔攻"] + 0.2,
+        "物/魔傷": state["物/魔傷"] + 0.05,
       }
     case '取消灼熱地帶':
       return {
         ...state,
-        "魔攻": state["魔攻"] - 0.2,
-        "魔傷": state["魔傷"] - 0.05,
+        "物/魔攻": state["物/魔攻"] - 0.2,
+        "物/魔傷": state["物/魔傷"] - 0.05,
+      }
+    case 'set猴子的魔法(海盜)':
+      return {
+        ...state,
+        "物/魔攻": state["物/魔攻"] + 0.25,
+      }
+    case '取消猴子的魔法(海盜)':
+      return {
+        ...state,
+        "物/魔攻": state["物/魔攻"] - 0.25,
+      }
+    case 'set咆哮(狂豹)':
+      return {
+        ...state,
+        "物/魔攻": state["物/魔攻"] + 0.15,
+      }
+    case '取消咆哮(狂豹)':
+      return {
+        ...state,
+        "物/魔攻": state["物/魔攻"] - 0.15,
       }
     default:
       throw new Error();
@@ -193,6 +229,14 @@ function 藥reducer(state, action) {
       return { ...state, "湯寶3藥": true }
     case '取消湯寶3藥':
       return { ...state, "湯寶3藥": false }
+    case 'set爆率30藥':
+      return { ...state, "爆率30藥": true }
+    case '取消爆率30藥':
+      return { ...state, "爆率30藥": false }
+    case 'set魔王B攻50藥':
+      return { ...state, "魔王B攻50藥": true }
+    case '取消魔王B攻50藥':
+      return { ...state, "魔王B攻50藥": false }
     default:
       throw new Error();
   }
@@ -232,14 +276,37 @@ function 狀態reducer(state, action) {
       return { ...state, "灼熱地帶": true }
     case '取消灼熱地帶':
       return { ...state, "灼熱地帶": false }
+    case 'set猴子的魔法(海盜)':
+      return { ...state, "猴子的魔法(海盜)": true }
+    case '取消猴子的魔法(海盜)':
+      return { ...state, "猴子的魔法(海盜)": false }
+    case 'set咆哮(狂豹)':
+      return { ...state, "咆哮(狂豹)": true }
+    case '取消咆哮(狂豹)':
+      return { ...state, "咆哮(狂豹)": false }
     default:
       throw new Error();
   }
 }
 
-
-let 藥列表 = ['B攻30藥', '爆傷30藥', '傷害30藥', '攻擊30藥', '攻擊50藥', 'B攻50藥', '湯寶3藥']
-let 狀態列表 = ['進階祝福', '最終極速', '憤怒', '戰鬥命令', '精神強化(冰雷、火毒)', '團隊精神(夜光)', '潛水回來吧', '灼熱地帶']
+function 王reducer(state, action) {
+  switch (action.type) {
+    case '+減傷':
+      return { ...state, "減傷": state["減傷"] + 0.1 };
+    case '-減傷':
+      return { ...state, "減傷": state["減傷"] - 0.1 };
+    case 'set減傷':
+      return { ...state, "減傷": state["減傷"] }
+    case '+抗爆':
+      return { ...state, "抗爆": state["抗爆"] + 0.1 }
+    case '-抗爆':
+      return { ...state, "抗爆": state["抗爆"] - 0.1 }
+    case 'set抗爆':
+      return { ...state, "抗爆": state["抗爆"] }
+    default:
+      throw new Error();
+  }
+}
 
 function App() {
   const [狀態, dispatch狀態] = useReducer(狀態reducer, {
@@ -250,7 +317,9 @@ function App() {
     '精神強化(冰雷、火毒)': false,
     '團隊精神(夜光)': false,
     '潛水回來吧': false,
-    '灼熱地帶': false
+    '灼熱地帶': false,
+    '猴子的魔法(海盜)': false,
+    "咆哮(狂豹)": false
   })
   const [藥, dispatch藥] = useReducer(藥reducer, {
     'B攻30藥': false,
@@ -259,37 +328,62 @@ function App() {
     '攻擊30藥': false,
     '攻擊50藥': false,
     'B攻50藥': false,
-    '湯寶3藥': false
+    '湯寶3藥': false,
+    '爆率30藥': false,
+    '魔王B攻50藥': false
   })
   const [s, dispatch] = useReducer(reducer, {
     "表攻": 30000,
-    "魔攻": 1.1,
-    "魔傷": 1,
+    "物/魔攻": 1.1,
+    "物/魔傷": 1,
     "B攻": 1,
     "爆傷": 3.4,
     "終傷": 0.5,
-    "技能倍率": 1.5
+    "技能倍率": 1.5,
+    "爆率": 1
   });
 
-  let finalDamage = s["表攻"] * s["技能倍率"] * (1 + s["終傷"]) * (1 + s["魔傷"]) * (1 + s["魔攻"] + s["技能倍率"] * s["B攻"]) * (1.2 + s["爆傷"])
+  const [s王, dispatch王] = useReducer(王reducer, {
+    "抗爆": 0.3,
+    "減傷": 0.4,
+  });
+
+  let playerDamage = s["表攻"] * s["技能倍率"] * (1 + s["終傷"]) * (1 + s["物/魔傷"]) * (1 + s["物/魔攻"] + s["技能倍率"] * s["B攻"] * 1.1)
+  let final爆;
+  if (s["爆率"] > 1) {
+    if (1 - s王["抗爆"] < 0) {
+      final爆 = 0
+    } else {
+      final爆 = (1 - s王["抗爆"]) * (1.2 + s["爆傷"])
+    }
+  } else {
+    if (s["爆率"] - s王["抗爆"] < 0) {
+      final爆 = 0
+    } else {
+      final爆 = (s["爆率"] - s王["抗爆"]) * (1.2 + s["爆傷"])
+    }
+  }
+
+  let finalDamage = playerDamage * (1 - s王["減傷"]) * (1 + final爆)
   let w = {
-    "魔攻":
-      ((1 + s["魔攻"] + 0.1 + s["技能倍率"] * s["B攻"]) - (1 + s["魔攻"] + s["技能倍率"] * s["B攻"]))
-      / (1 + s["魔攻"] + s["技能倍率"] * s["B攻"]) * finalDamage,
-    "魔傷":
-      ((1 + s["魔傷"] + 0.1) - (1 + s["魔傷"])) / ((1 + s["魔傷"])) * finalDamage,
+    "物/魔攻":
+      ((1 + s["物/魔攻"] + 0.1 + s["技能倍率"] * s["B攻"] * 1.1) - (1 + s["物/魔攻"] + s["技能倍率"] * s["B攻"] * 1.1))
+      / (1 + s["物/魔攻"] + s["技能倍率"] * s["B攻"]) * finalDamage,
+    "物/魔傷":
+      ((1 + s["物/魔傷"] + 0.1) - (1 + s["物/魔傷"])) / ((1 + s["物/魔傷"])) * finalDamage,
     "B攻":
-      ((1 + s["魔攻"] + s["技能倍率"] * (s["B攻"] + 0.1)) - (1 + s["魔攻"] + s["技能倍率"] * s["B攻"]))
-      / ((1 + s["魔攻"] + s["技能倍率"] * s["B攻"])) * finalDamage,
+      ((1 + s["物/魔攻"] + s["技能倍率"] * (s["B攻"] + 0.1) * 1.1) - (1 + s["物/魔攻"] + s["技能倍率"] * s["B攻"] * 1.1))
+      / ((1 + s["物/魔攻"] + s["技能倍率"] * s["B攻"])) * finalDamage,
     "爆傷": ((1.2 + s["爆傷"] + 0.1) - (1.2 + s["爆傷"])) / ((1.2 + s["爆傷"])) * finalDamage,
     "終傷": ((1 + s["終傷"] + 0.1) - (1 + s["終傷"])) / ((1 + s["終傷"])) * finalDamage,
+    "爆率": (s["爆率"] - s王["抗爆"]) >= 1 ? 0 : ((s["爆率"] + 0.1) - s["爆率"]) / s["爆率"] * finalDamage
   }
   let 卡頂 = finalDamage > 10000000
   let damageStyle = 卡頂 ? { color: "red" } : {}
   return <div >
-    <h3>藥</h3>
-    <div>
-      {藥列表.map((藥名) => {
+    <div style={{ padding: '5px', borderBottom: '1px solid black' }}>
+      <h3 style={{ display: 'inline-block', margin: '10px' }}>藥</h3>
+      {Object.keys(藥).map((藥名) => {
         return <div key={藥名} style={{ display: 'inline-block' }}>
           <label htmlFor={藥名}>{藥名}</label>
           <input type="checkbox" id={藥名} value={藥[藥名]} onChange={() => {
@@ -304,9 +398,9 @@ function App() {
         </div>
       })}
     </div>
-    <h3>buff</h3>
-    <div>
-      {狀態列表.map((狀態名) => {
+    <div style={{ padding: '5px', borderBottom: '1px solid black' }}>
+      <h3 style={{ display: 'inline-block', margin: '10px' }}>buff</h3>
+      {Object.keys(狀態).map((狀態名) => {
         return <div key={狀態名} style={{ display: 'inline-block' }}>
           <label htmlFor={狀態名}>{狀態名}</label>
           <input type="checkbox" id={狀態名} value={狀態[狀態名]} onChange={() => {
@@ -321,36 +415,68 @@ function App() {
         </div>
       })}
     </div>
-    <div>
-      {
-        Object.keys(s).map((key) => {
-          return <div key={key} style={{ margin: '10px' }}>
-            <div>
-              {key !== "表攻" && key !== "技能倍率" ? <button onClick={() => {
-                dispatch({ type: `+${key}` })
-              }}>
-                +
-              </button> : <></>}
-              {key}
-              {key !== "表攻" && key !== "技能倍率" ? <button onClick={() => {
-                dispatch({ type: `-${key}` })
-              }}>
-                -
-              </button> : <></>}
-            </div>
+    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <div style={{ padding: '5px', borderBottom: '1px solid black', width: '45vw' }}>
+        <h3 style={{ margin: '10px' }}>玩家狀態</h3>
+        {
+          Object.keys(s).map((key) => {
+            return <div key={key} style={{ margin: '10px' }}>
+              <div>
+                {key !== "表攻" && key !== "技能倍率" ? <button onClick={() => {
+                  dispatch({ type: `+${key}` })
+                }}>
+                  +
+                </button> : <></>}
+                {key}
+                {key !== "表攻" && key !== "技能倍率" ? <button onClick={() => {
+                  dispatch({ type: `-${key}` })
+                }}>
+                  -
+                </button> : <></>}
+              </div>
 
-            <Input value={s[key].toFixed(2)} onChange={(e) => {
-              dispatch({ type: `set${key}`, value: Number(e.target.value) })
-            }} />
-            <br />
-            {key !== "表攻" && key !== "技能倍率" ?
-              <>+10%可增加 {key !== "表攻" && key !== "技能倍率" ? w[key].toFixed(2) : ""} 傷害</>
-              : <></>}
-          </div>
-        })
-      }
+              <Input style={{ width: '100px' }} value={s[key].toFixed(2)} onChange={(e) => {
+                dispatch({ type: `set${key}`, value: Number(e.target.value) })
+              }} />
+              <br />
+              {key !== "表攻" && key !== "技能倍率" ?
+                <p style={{ fontSize: "0.5em", marginTop: '0' }}>+10%可增加 {key !== "表攻" && key !== "技能倍率" ? w[key].toFixed() : ""} 傷害</p>
+                : <></>}
+
+            </div>
+          })
+        }
+      </div>
+      <hr style={{}} />
+      <div style={{ padding: '5px', borderBottom: '1px solid black', width: '45vw' }}>
+        <h3 style={{ margin: '10px' }}>王的狀態</h3>
+        {
+          Object.keys(s王).map((key) => {
+            return <div key={key} style={{ margin: '10px' }}>
+              <div>
+                {key !== "表攻" && key !== "技能倍率" ? <button onClick={() => {
+                  dispatch王({ type: `+${key}` })
+                }}>
+                  +
+                </button> : <></>}
+                {key}
+                {key !== "表攻" && key !== "技能倍率" ? <button onClick={() => {
+                  dispatch王({ type: `-${key}` })
+                }}>
+                  -
+                </button> : <></>}
+              </div>
+
+              <Input style={{ width: '100px' }} value={s王[key].toFixed(2)} onChange={(e) => {
+                dispatch王({ type: `set${key}`, value: Number(e.target.value) })
+              }} />
+            </div>
+          })
+        }
+      </div>
     </div>
-    <h3 style={damageStyle}>可能打出的技能傷害: {finalDamage.toFixed(2)}</h3>
+    <h3 style={damageStyle}>打出的技能傷害: {finalDamage.toFixed()}</h3>
+    <span style={{ position: 'relative', top: -20 }}>(已套用抗爆與減傷)</span>
   </div >
 
 }
