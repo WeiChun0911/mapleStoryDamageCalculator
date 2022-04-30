@@ -1,38 +1,54 @@
-.App {
-  text-align: center;
+#root>div>h3 {
+  margin: 15px 15px 0 15px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.buffAndPotionLayout {
+  padding: 10px;
+  border-bottom: 2px solid black;
+  display: grid;
+  grid-template-columns: auto auto
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.buffAndPotionLayout h3 {
+  margin: 0;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.buffAndPotionLayout div {
+  display: inline-block;
+  margin: 0;
+  overflow: hidden;
+}
+
+#stateLayout {
+  padding: 5px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: space-between;
 }
 
-.App-link {
-  color: #61dafb;
+.playerStateLayout,
+.bossStateLayout {
+  padding: 5px;
+  width: 45vw;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.playerStateLayout>*,
+.bossStateLayout>div:first-of-type>* {
+  margin: 10px;
+}
+
+.playerStateLayout>div:last-of-type {
+  margin-bottom: 0px;
+}
+
+.playerStateLayout>div:last-of-type>p {
+  margin-bottom: 0px;
+}
+
+.blockByCeiling {
+  color: red
+}
+
+.damageNumber {
+  flex: 1;
+  margin: 10px 0 0 0;
 }

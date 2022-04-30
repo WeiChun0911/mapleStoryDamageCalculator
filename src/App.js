@@ -1,5 +1,6 @@
 import React, { useReducer } from 'react';
 import Input from './SemiControlledInput'
+import './App.css';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -341,7 +342,6 @@ function App() {
     "技能倍率": 1.5,
     "爆率": 1
   });
-
   const [s王, dispatch王] = useReducer(王reducer, {
     "抗爆": 0.3,
     "減傷": 0.4,
@@ -401,11 +401,10 @@ function App() {
     "爆率": 爆率加10其他不變期望傷害 - 原素質最終期望傷害
   }
   return <div style={{ maxWidth: '600px' }}>
-    <div style={{ padding: '5px', borderBottom: '1px solid black' }}>
-      <h3 style={{ display: 'inline-block', margin: '10px' }}>藥</h3>
+    <h3>藥</h3>
+    <div className='buffAndPotionLayout'>
       {Object.keys(藥).map((藥名) => {
-        return <div key={藥名} style={{ display: 'inline-block' }}>
-          <label htmlFor={藥名}>{藥名}</label>
+        return <div key={藥名}>
           <input type="checkbox" id={藥名} value={藥[藥名]} onChange={() => {
             if (藥[藥名]) { //取消
               dispatch({ type: `取消${藥名}` })
@@ -415,14 +414,14 @@ function App() {
               dispatch藥({ type: `set${藥名}` })
             }
           }} />
+          <label htmlFor={藥名}>{藥名}</label>
         </div>
       })}
     </div>
-    <div style={{ padding: '5px', borderBottom: '1px solid black' }}>
-      <h3 style={{ display: 'inline-block', margin: '10px' }}>buff</h3>
+    <h3>buff</h3>
+    <div className='buffAndPotionLayout'>
       {Object.keys(狀態).map((狀態名) => {
-        return <div key={狀態名} style={{ display: 'inline-block' }}>
-          <label htmlFor={狀態名}>{狀態名}</label>
+        return <div key={狀態名} >
           <input type="checkbox" id={狀態名} value={狀態[狀態名]} onChange={() => {
             if (狀態[狀態名]) { //取消
               dispatch({ type: `取消${狀態名}` })
@@ -432,15 +431,16 @@ function App() {
               dispatch狀態({ type: `set${狀態名}` })
             }
           }} />
+          <label htmlFor={狀態名}>{狀態名}</label>
         </div>
       })}
     </div>
-    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-      <div style={{ padding: '5px', borderBottom: '1px solid black', width: '45vw' }}>
-        <h3 style={{ margin: '10px' }}>玩家狀態</h3>
+    <div id="stateLayout">
+      <div className='playerStateLayout'>
+        <h3>玩家狀態</h3>
         {
           Object.keys(s).map((key) => {
-            return <div key={key} style={{ margin: '10px' }}>
+            return <div key={key}>
               <div>
                 {key !== "表攻" && key !== "技能倍率" ? <button onClick={() => {
                   dispatch({ type: `+${key}` })
@@ -460,50 +460,49 @@ function App() {
               }} />
               <br />
               {key !== "表攻" && key !== "技能倍率" ?
-                <p style={{ fontSize: "0.5em", marginTop: '0' }}>+10% 可 +{key !== "表攻" && key !== "技能倍率" ? 加10之後的狀態[key].toFixed() : ""} 期望傷害</p>
+                <p style={{ fontSize: "0.5em", marginTop: '0' }}>+10% 可 +{key !== "表攻" && key !== "技能倍率" ? 加10之後的狀態[key].toFixed().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") : ""} 期望傷害</p>
                 : <></>}
 
             </div>
           })
         }
       </div>
-      <hr style={{}} />
-      <div style={{ padding: '5px', borderBottom: '1px solid black', width: '45vw' }}>
-        <h3 style={{ margin: '10px' }}>王的狀態</h3>
-        {
-          Object.keys(s王).map((key) => {
-            return <div key={key} style={{ margin: '10px' }}>
-              <div>
-                {key !== "表攻" && key !== "技能倍率" ? <button onClick={() => {
-                  dispatch王({ type: `+${key}` })
-                }}>
-                  +
-                </button> : <></>}
-                {key}
-                {key !== "表攻" && key !== "技能倍率" ? <button onClick={() => {
-                  dispatch王({ type: `-${key}` })
-                }}>
-                  -
-                </button> : <></>}
-              </div>
+      <div className='bossStateLayout' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <div>
+          <h3>王的狀態</h3>
+          {
+            Object.keys(s王).map((key) => {
+              return <div key={key}>
+                <div>
+                  {key !== "表攻" && key !== "技能倍率" ? <button onClick={() => {
+                    dispatch王({ type: `+${key}` })
+                  }}>
+                    +
+                  </button> : <></>}
+                  {key}
+                  {key !== "表攻" && key !== "技能倍率" ? <button onClick={() => {
+                    dispatch王({ type: `-${key}` })
+                  }}>
+                    -
+                  </button> : <></>}
+                </div>
 
-              <Input style={{ width: '100px' }} value={s王[key].toFixed(2)} onChange={(e) => {
-                dispatch王({ type: `set${key}`, value: Number(e.target.value) })
-              }} />
-            </div>
-          })
-        }
+                <Input style={{ width: '100px' }} value={s王[key].toFixed(2)} onChange={(e) => {
+                  dispatch王({ type: `set${key}`, value: Number(e.target.value) })
+                }} />
+              </div>
+            })
+          }
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <h3 className={原素質最終爆擊傷害.toFixed() > 10000000 ? 'blockByCeiling damageNumber' : "damageNumber"}>爆擊傷害: {原素質最終爆擊傷害.toFixed().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}</h3>
+          <h3 className={原素質最終普通傷害.toFixed() > 10000000 ? 'blockByCeiling damageNumber' : "damageNumber"}>普通傷害: {原素質最終普通傷害.toFixed().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}</h3>
+          <h3 className='damageNumber'>爆率: {原素質最終爆率.toFixed(2)}</h3>
+          <h3 className={原素質最終期望傷害.toFixed() > 10000000 ? 'blockByCeiling damageNumber' : "damageNumber"}>期望傷害: {原素質最終期望傷害.toFixed().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}</h3>
+          <span className='damageNumber' style={{ display: 'inline-block' }}>(已套用抗爆與減傷)</span>
+        </div>
       </div>
     </div>
-    <div style={{ display: 'flex' }}>
-      <h3 style={原素質最終爆擊傷害.toFixed() > 10000000 ? { color: 'red', flex: 1, padding: '0 10px' } : { flex: 1, padding: '0 10px' }}>爆擊傷害: {原素質最終爆擊傷害.toFixed()}</h3>
-      <h4 style={{ flex: 1, padding: '0 10px' }}>爆率: {原素質最終爆率.toFixed(2)}</h4>
-    </div>
-    <div style={{ display: 'flex', marginTop: '-20px' }}>
-      <h3 style={原素質最終普通傷害.toFixed() > 10000000 ? { color: 'red', flex: 1, padding: '0 10px' } : { flex: 1, padding: '0 10px' }}>普通傷害: {原素質最終普通傷害.toFixed()}</h3>
-      <h4 style={原素質最終期望傷害.toFixed() > 10000000 ? { color: 'red', flex: 1, padding: '0 10px' } : { flex: 1, padding: '0 10px' }}>期望傷害: {原素質最終期望傷害.toFixed()}</h4>
-    </div>
-    <span style={{ display: 'inline-block' }}>(已套用抗爆與減傷)</span>
   </div >
 
 }
