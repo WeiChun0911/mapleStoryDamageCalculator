@@ -1,4 +1,3 @@
-import './App.css';
 import React, { useReducer } from 'react';
 import Input from './SemiControlledInput'
 
@@ -348,57 +347,60 @@ function App() {
     "減傷": 0.4,
   });
 
-  let playerDamage = s["表攻"] * s["技能倍率"] * (1 + s["終傷"]) * (1 + s["物/魔傷"]) * (1 + s["物/魔攻"] + s["技能倍率"] * s["B攻"] * 1.1)
-  let final爆率;
-  let wfinal爆率;
+  let 原素質最終爆率;
+  let 加10後的最終爆率;
   if (s["爆率"] > 1) {
     if (1 - s王["抗爆"] < 0) {
-      final爆率 = 0
+      原素質最終爆率 = 0
     } else {
-      final爆率 = (1 - s王["抗爆"])
+      原素質最終爆率 = (1 - s王["抗爆"])
     }
   } else {
     if (s["爆率"] - s王["抗爆"] < 0) {
-      final爆率 = 0
+      原素質最終爆率 = 0
     } else {
-      final爆率 = (s["爆率"] - s王["抗爆"])
+      原素質最終爆率 = (s["爆率"] - s王["抗爆"])
     }
   }
 
   if (s["爆率"] + 0.1 > 1) {
     if (1 - s王["抗爆"] < 0) {
-      wfinal爆率 = 0
+      加10後的最終爆率 = 0
     } else {
-      wfinal爆率 = (1 - s王["抗爆"])
+      加10後的最終爆率 = (1 - s王["抗爆"])
     }
   } else {
     if (s["爆率"] + 0.1 - s王["抗爆"] < 0) {
-      wfinal爆率 = 0
+      加10後的最終爆率 = 0
     } else {
-      wfinal爆率 = (s["爆率"] + 0.1 - s王["抗爆"])
+      加10後的最終爆率 = (s["爆率"] + 0.1 - s王["抗爆"])
     }
   }
 
+  let 原素質玩家普通傷害 = s["表攻"] * s["技能倍率"] * (1 + s["終傷"]) * (1 + s["物/魔傷"]) * (1 + s["物/魔攻"] + s["技能倍率"] * s["B攻"] * 1.1)
+  let 原素質最終普通傷害 = 原素質玩家普通傷害 * (1 - s王["減傷"])
+  let 原素質最終爆擊傷害 = 原素質最終普通傷害 * (1.2 + s['爆傷'])
+  let 原素質最終期望傷害 = 原素質最終爆擊傷害 * 原素質最終爆率 + 原素質最終普通傷害 * (1 - 原素質最終爆率)
 
-  let final普通Damage = playerDamage * (1 - s王["減傷"])
-  let final爆擊Damage = final普通Damage * (1.2 + s['爆傷'])
-  let final期望Damage = final爆擊Damage * final爆率 + final普通Damage * (1 - final爆率)
-  let w = {
+  let 爆傷加10爆擊傷害 = 原素質最終普通傷害 * (1.2 + s['爆傷'] + 0.1)
+  let 爆傷加10其他不變期望傷害 = 爆傷加10爆擊傷害 * 原素質最終爆率 + 原素質最終普通傷害 * (1 - 原素質最終爆率)
+
+  let 爆率加10其他不變期望傷害 = 原素質最終爆擊傷害 * 加10後的最終爆率 + 原素質最終普通傷害 * (1 - 加10後的最終爆率)
+
+  let 加10之後的狀態 = {
     "物/魔攻":
       ((1 + s["物/魔攻"] + 0.1 + s["技能倍率"] * s["B攻"] * 1.1) - (1 + s["物/魔攻"] + s["技能倍率"] * s["B攻"] * 1.1))
-      / (1 + s["物/魔攻"] + s["技能倍率"] * s["B攻"]) * final期望Damage,
+      / (1 + s["物/魔攻"] + s["技能倍率"] * s["B攻"]) * 原素質最終期望傷害,
     "物/魔傷":
-      ((1 + s["物/魔傷"] + 0.1) - (1 + s["物/魔傷"])) / ((1 + s["物/魔傷"])) * final期望Damage,
+      ((1 + s["物/魔傷"] + 0.1) - (1 + s["物/魔傷"])) / ((1 + s["物/魔傷"])) * 原素質最終期望傷害,
     "B攻":
       ((1 + s["物/魔攻"] + s["技能倍率"] * (s["B攻"] + 0.1) * 1.1) - (1 + s["物/魔攻"] + s["技能倍率"] * s["B攻"] * 1.1))
-      / ((1 + s["物/魔攻"] + s["技能倍率"] * s["B攻"])) * final期望Damage,
-    "爆傷": ((1.2 + s["爆傷"] + 0.1) - (1.2 + s["爆傷"])) / ((1.2 + s["爆傷"])) * final期望Damage,
-    "終傷": ((1 + s["終傷"] + 0.1) - (1 + s["終傷"])) / ((1 + s["終傷"])) * final期望Damage,
-    "爆率": (wfinal爆率 - final爆率) * final期望Damage
+      / ((1 + s["物/魔攻"] + s["技能倍率"] * s["B攻"])) * 原素質最終期望傷害,
+    "爆傷": 爆傷加10其他不變期望傷害 - 原素質最終期望傷害,
+    "終傷": ((1 + s["終傷"] + 0.1) - (1 + s["終傷"])) / ((1 + s["終傷"])) * 原素質最終期望傷害,
+    "爆率": 爆率加10其他不變期望傷害 - 原素質最終期望傷害
   }
-  let 卡頂 = final爆擊Damage > 10000000
-  let damageStyle = 卡頂 ? { color: "red", margin: '10px 0' } : { margin: '10px 0' }
-  return <div >
+  return <div style={{ maxWidth: '600px' }}>
     <div style={{ padding: '5px', borderBottom: '1px solid black' }}>
       <h3 style={{ display: 'inline-block', margin: '10px' }}>藥</h3>
       {Object.keys(藥).map((藥名) => {
@@ -458,7 +460,7 @@ function App() {
               }} />
               <br />
               {key !== "表攻" && key !== "技能倍率" ?
-                <p style={{ fontSize: "0.5em", marginTop: '0' }}>+10% 可 +{key !== "表攻" && key !== "技能倍率" ? w[key].toFixed() : ""} 期望傷害</p>
+                <p style={{ fontSize: "0.5em", marginTop: '0' }}>+10% 可 +{key !== "表攻" && key !== "技能倍率" ? 加10之後的狀態[key].toFixed() : ""} 期望傷害</p>
                 : <></>}
 
             </div>
@@ -493,8 +495,14 @@ function App() {
         }
       </div>
     </div>
-    <h3 style={damageStyle}>打出的爆擊傷害: {final爆擊Damage.toFixed()}</h3>
-    <h4 style={damageStyle}>打出的普通傷害: {final普通Damage.toFixed()}</h4>
+    <div style={{ display: 'flex' }}>
+      <h3 style={原素質最終爆擊傷害.toFixed() > 10000000 ? { color: 'red', flex: 1, padding: '0 10px' } : { flex: 1, padding: '0 10px' }}>爆擊傷害: {原素質最終爆擊傷害.toFixed()}</h3>
+      <h4 style={{ flex: 1, padding: '0 10px' }}>爆率: {原素質最終爆率.toFixed(2)}</h4>
+    </div>
+    <div style={{ display: 'flex', marginTop: '-20px' }}>
+      <h3 style={原素質最終普通傷害.toFixed() > 10000000 ? { color: 'red', flex: 1, padding: '0 10px' } : { flex: 1, padding: '0 10px' }}>普通傷害: {原素質最終普通傷害.toFixed()}</h3>
+      <h4 style={原素質最終期望傷害.toFixed() > 10000000 ? { color: 'red', flex: 1, padding: '0 10px' } : { flex: 1, padding: '0 10px' }}>期望傷害: {原素質最終期望傷害.toFixed()}</h4>
+    </div>
     <span style={{ display: 'inline-block' }}>(已套用抗爆與減傷)</span>
   </div >
 
