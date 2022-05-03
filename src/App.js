@@ -460,7 +460,7 @@ function App() {
               }} />
               <br />
               {key !== "表攻" && key !== "技能倍率" ?
-                <p style={{ fontSize: "0.5em", marginTop: '0' }}>+10% 可 +{key !== "表攻" && key !== "技能倍率" ? 加10之後的狀態[key].toFixed().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") : ""} 期望傷害</p>
+                <p style={{ fontSize: "0.5em", marginTop: '0' }}>+10% 可 +{key !== "表攻" && key !== "技能倍率" ? 加10之後的狀態[key].toFixed() : ""} 期望傷害</p>
                 : <></>}
 
             </div>
@@ -495,10 +495,10 @@ function App() {
           }
         </div>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <h3 className={原素質最終爆擊傷害.toFixed() > 10000000 ? 'blockByCeiling damageNumber' : "damageNumber"}>爆擊傷害: {原素質最終爆擊傷害.toFixed().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}</h3>
-          <h3 className={原素質最終普通傷害.toFixed() > 10000000 ? 'blockByCeiling damageNumber' : "damageNumber"}>普通傷害: {原素質最終普通傷害.toFixed().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}</h3>
+          <h3 className={原素質最終爆擊傷害.toFixed() > 10000000 ? 'blockByCeiling damageNumber' : "damageNumber"}>爆擊傷害: {原素質最終爆擊傷害.toFixed()}</h3>
+          <h3 className={原素質最終普通傷害.toFixed() > 10000000 ? 'blockByCeiling damageNumber' : "damageNumber"}>普通傷害: {原素質最終普通傷害.toFixed()}</h3>
           <h3 className='damageNumber'>爆率: {原素質最終爆率.toFixed(2)}</h3>
-          <h3 className={原素質最終期望傷害.toFixed() > 10000000 ? 'blockByCeiling damageNumber' : "damageNumber"}>期望傷害: {原素質最終期望傷害.toFixed().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}</h3>
+          <h3 className={原素質最終期望傷害.toFixed() > 10000000 ? 'blockByCeiling damageNumber' : "damageNumber"}>期望傷害: {原素質最終期望傷害.toFixed()}</h3>
           <span className='damageNumber' style={{ display: 'inline-block' }}>(已套用抗爆與減傷)</span>
         </div>
       </div>
