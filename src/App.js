@@ -71,16 +71,16 @@ function reducer(state, action) {
     case 'set湯寶3藥':
       return {
         ...state,
-        "物/魔攻": state["物/魔攻"] + 0.2,
         "物/魔傷": state["物/魔傷"] + 0.2,
-        "B攻": state["B攻"] + 0.2
+        "B攻": state["B攻"] + 0.2,
+        "爆率": state["爆率"] + 0.2
       }
     case '取消湯寶3藥':
       return {
         ...state,
-        "物/魔攻": state["物/魔攻"] - 0.2,
         "物/魔傷": state["物/魔傷"] - 0.2,
-        "B攻": state["B攻"] - 0.2
+        "B攻": state["B攻"] - 0.2,
+        "爆率": state["爆率"] - 0.2
       }
     case 'set爆率30藥':
       return { ...state, "爆率": state["爆率"] + 0.3 }
